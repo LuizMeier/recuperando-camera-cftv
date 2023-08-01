@@ -1,5 +1,7 @@
 ## Recuperando câmera CFTV
 
+### Contexto
+
 Olá!
 
 Na última semana tive uma dificuldade com duas câmeras Intelbras VIP-3220-B que brickaram, simplesmente do nada. Apesar de existirem milhares de posts e vídeos no YouTube de pessoas ensinando a configurar, resetar, alterar senha e et, não encontrei nenhuma informação a respeito de como tentar recuperar o equipamento nestes casos. Vou fazer um passo-a-passo aqui de como detectei que a câmera não estava condenada e comecei os trabalhos para recuperá-las.
@@ -19,7 +21,7 @@ Na imagem abaixo, algumas pistas aparecem:
 
 Este comportamento é bastante comum quando um equipamento não encontra o sistema operacional e tenta efetuar o boot via rede, usando TFTP. Comecei a pensar que talvez o armazenamento delas estivesse queimado ou com problemas. Comecei a pesquisa procurando por informações do arquivo *upgrade_info_7db780a7134a.txt*. A partir daí, tudo começou a se esclarecer, pois há bastante conteúdo disponível quando pesquisamos sobre o arquivo acima. Aparentemente, a Intelbras usa o mesmo equipamento (se não o mesmo equipamento, então o mesmo bootloader) que uma outra fabricante chinesa chamada Dahua.
 
-### Partindo pra recuperação
+### Recuperação
 
 Navegando em vários fóruns, encontrei alguns que disponibilizavam o procedimento para conseguir fazer a instalação manual do firmware através da porta serial da câmera. Abri, então, uma delas e consegui encontrar as portas para acesso, conforme indicado [neste link](https://www.cctvforum.com/topic/41307-unbricking-your-dahua-ip-camera-tips-tricks-amp-firmware/). Segue abaixo uma foto com as portas identificadas:
 
