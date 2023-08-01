@@ -2,13 +2,13 @@
 
 Olá!
 
-Na última semana tive uma dificuldade com duas câmeras Intelbras VIP-3220-B que brickaram, simplesmente do nada. Apesar de existirem milhares de posts e vídeos no YouTube de pessoas ensinando a configurar, resetar, alterar senha e et, não encontrei nenhuma informação a respeito de como tentar recuperar o equipamento nestes casos. Vou fazer um passo-a-passo aqui de como detectei que a câmera não estava condenada e comecei os trabalhos para recuperá-las.
+Na última semana tive uma dificuldade com duas câmeras Intelbras VIP-3220-B que brickaram, simplesmente do nada. Apesar de existirem milhares de posts e vídeos no YouTube de pessoas ensinando a configurar, resetar, alterar senha e etc, não encontrei nenhuma informação a respeito de como tentar recuperar o equipamento nestes casos. Vou fazer um passo-a-passo aqui de como detectei que a câmera não estava condenada e comecei os trabalhos para recuperá-las.
 
-Vou assumir que você já está habituado(a) com pelo menos o comportamento básico de redes, CFTV e um pouco de eletrônica.
+Vou assumir que você já está habituado(a) com pelo menos o conceito básico de redes, CFTV e um pouco de eletrônica.
 
 ### Diagnóstico
 
-Percebi que as câmeras haviam parado de gravar e então removi-as do local para dar uma olhada mais de perto, já esperando que estivessem queimadas. Conectei-as à energia e conectei no meu roteador. Percebi então que a interface de rede do roteador ficava ligando e desligando após alguns segundos. Achei curioso e isso me fez ter esperança, pois imaginei que ainda havia algo vivo que estivesse gerando reboot do equipamento. Pra tentar disgnosticar o que estava ocorrendo, conectei a câmera direto no meu laptop e usei o Wireshark para capturar o tráfego de rede e então tentar ter alguma pista do motivo do comportamento.
+Percebi que as câmeras haviam parado de gravar e então removi-as do local para dar uma olhada mais de perto, já esperando que estivessem queimadas. Conectei-as à energia e conectei no meu roteador. Percebi então que a interface de rede do roteador ficava ligando e desligando após alguns segundos. Achei curioso e isso me fez ter esperança, pois imaginei que ainda havia algo vivo que estivesse gerando reboot do equipamento. Pra tentar diagnosticar o que estava ocorrendo, conectei a câmera direto no meu laptop e usei o Wireshark para capturar o tráfego de rede e então tentar ter alguma pista do motivo do comportamento.
 Na imagem abaixo, algumas pistas aparecem:
 
 ![Primeira captura](imagens/primeira-captura.png)
@@ -52,8 +52,8 @@ O importante aqui é a informação sobre os arquivos que o bootloader usa para 
 
 ![Imprimindo comandos](imagens/variáveis-boot.png)
 
-Todos esses arquivos .img estão contidos no arquivo de instalação do firmware, comprimidos em um arquivo.bin. Para conseguí-los (pelo menos a maioria deles), baixei a versão de firmware direto do site da Intelbras, e depois descompactei. Você verá que boa parte dos arquivos desejados estarão disponíveis. 
-Agora que consegui os arquivos, é necessáro encontrar uma forma de disponibilizá-los para que o bootloader possa baixá-los para instalação via TFTP. Para isso, usei o TFTPD32. Você pode pesquisar e baixar de onde preferir. Na minha configuração, eu preferi colocar o endereço 192.168.254.254 na minha placa de rede porque achei que sairia mais barato. Porém, é possível alterar os endereços conforme quiser usando o comando *setenv*.
+Todos esses arquivos .img estão contidos no arquivo de instalação do firmware, comprimidos em um arquivo.bin. Para consegui-los (pelo menos a maioria deles), baixei a versão de firmware direto do site da Intelbras, e depois descompactei. Você verá que boa parte dos arquivos desejados estarão disponíveis. 
+Agora que consegui os arquivos, é necessário encontrar uma forma de disponibilizá-los para que o bootloader possa baixá-los para instalação via TFTP. Para isso, usei o TFTPD32. Você pode pesquisar e baixar de onde preferir. Na minha configuração, eu preferi colocar o endereço 192.168.254.254 na minha placa de rede porque achei que sairia mais barato. Porém, é possível alterar os endereços conforme quiser usando o comando *setenv*.
 
 ![Arquivos](imagens/arquivos.png)
 
@@ -67,8 +67,8 @@ Com o TFTP configurado e conectividade ok, podemos iniciar o processo de boot, u
 
 ![Executando instalação](imagens/run-dk.png)
 
-Feito isso, executa-se o mesmo processo para todos os arquivos (dk, du, dw, dp, dd, dc, up), **MENOS PARA O BOOTLOADER**! A não ser que voce realmente precise, não há razão para atualizá-lo. No meu caso, as duas últimas não funcionaram, mas nem sei se eram necessários. De qualquer forma, minha intenção era que o básico da câmera subisse para que eu pudesse fazer uma atualização de firmware do modelo tradicional e recuperar todas as funções. Executados todos os comandos, podemos pedir o reboot do equipamento com o comando *boot*.
-Se você obteve sucesso na atualização, perceberá na serial a diferença, pois comecçará a ver a saída de todas as ações do sistema operacional.
+Feito isso, executa-se o mesmo processo para todos os arquivos (dk, du, dw, dp, dd, dc, up), **MENOS PARA O BOOTLOADER**! A não ser que você realmente precise, não há razão para atualizá-lo. No meu caso, as duas últimas não funcionaram, mas nem sei se eram necessários. De qualquer forma, minha intenção era que o básico da câmera subisse para que eu pudesse fazer uma atualização de firmware do modelo tradicional e recuperar todas as funções. Executados todos os comandos, podemos pedir o reboot do equipamento com o comando *boot*.
+Se você obteve sucesso na atualização, perceberá na serial a diferença, pois começará a ver a saída de todas as ações do sistema operacional.
 
 ![Erro no dc-up](imagens/dc-up.png)
 
@@ -76,13 +76,13 @@ Se você obteve sucesso na atualização, perceberá na serial a diferença, poi
 
 ![Boot ok](imagens/boot-ok.png)
 
-Successo! Inclusive, como estava em uso, a câmera voltou com as mesmas configurações, como IP, senha e etc. Caso não aconteça com vocÊ, é possível saber o endereço dela usando o Wireshark ou o aplicativo IP Utility, da própria Intelbras.
+Sucesso! Inclusive, como estava em uso, a câmera voltou com as mesmas configurações, como IP, senha e etc. Caso não aconteça com você, é possível saber o endereço dela usando o Wireshark ou o aplicativo IP Utility, da própria Intelbras.
 
 ![Acesso web](imagens/web-ok.png)
 
 ![IP Utility](imagens/iputility.png)
 
-Feito isso, fiz uma atualização comum, apontando o arquivo .bin que o próprio fabricante disponibiliza. Assim, tive certeza que a câmera estava configurada com tudo que precisava.
+Feito isso, fiz uma atualização comum, apontando o arquivo .bin que o próprio fabricante disponibiliza. Assim, tive certeza de que a câmera estava configurada com tudo que precisava.
 
 
 Espero que este post ajude aos colegas que, eventualmente, sofrerem com o mesmo problema.
